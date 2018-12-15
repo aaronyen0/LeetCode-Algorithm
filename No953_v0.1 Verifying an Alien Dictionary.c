@@ -4,6 +4,8 @@
 
 bool isAlienSorted(char** words, int wordsSize, char* order) {
     int hashTable[26], n = wordsSize - 1;
+    char *str0, *str1;
+    
     for(int i = 0; i < 26; ++i){
         hashTable[order[i] - 'a'] = i;
     }
@@ -11,7 +13,6 @@ bool isAlienSorted(char** words, int wordsSize, char* order) {
     if(n < 1){
         return true;
     }
-    char *str0, *str1;
     
     for(int i = 0; i < n; ++i){
         str0 = words[i];
