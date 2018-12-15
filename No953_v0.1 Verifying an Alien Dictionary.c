@@ -1,22 +1,18 @@
 //若是想進一步加速，又不在意空間的話
-//一種可行的方法是擴張hashTable size，變成int hashTable[27 + 'a']
+//一種可嘗試的方法是擴張hashTable size，變成int hashTable[27 + 'a']
 //資料可以直接儲存在hashTable[order[i]]，這樣就不用每次查找前都減'a'了
 
 bool isAlienSorted(char** words, int wordsSize, char* order) {
-    int hashTable[26], n = wordsSize - 1;
+    int hashTable[26];
     char *str0, *str1;
     
     for(int i = 0; i < 26; ++i){
         hashTable[order[i] - 'a'] = i;
     }
     
-    if(n < 1){
-        return true;
-    }
-    
-    for(int i = 0; i < n; ++i){
-        str0 = words[i];
-        str1 = words[i + 1];
+    for(int i = 1; i < wordsSize; ++i){
+        str0 = words[i - 1];
+        str1 = words[i];
         while(1){
             if(*str0 == 0){
                 break;
@@ -35,6 +31,7 @@ bool isAlienSorted(char** words, int wordsSize, char* order) {
 }
 
 /*
+//最早期的版本
 bool isAlienSorted(char** words, int wordsSize, char* order) {
     int hashTable[26], n = wordsSize - 1, flag;
     for(int i = 0; i < 26; ++i){
