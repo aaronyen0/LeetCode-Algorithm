@@ -42,7 +42,7 @@ void quicksort(int *data, int left, int right)
 }
 
 void wiggleSort(int* nums, int numsSize) {
-    int idx, tmp;
+    int idx, tmp, k;
     int n1 = numsSize/2 + (numsSize&1);
     int n2 = numsSize/2;
     
@@ -60,11 +60,15 @@ void wiggleSort(int* nums, int numsSize) {
         maxArr[i] = nums[n1 + i];
     }
     
+    k = 2 * (n1 - 1);
     for(int i = 0; i < n1; ++i){
-         nums[2 * (n1 - i - 1)] = minArr[i];
-    }
-    for(int i = 0; i < n2; ++i){
-        nums[2 * (n2 - i) - 1] = maxArr[i];
+        nums[k] = minArr[i];
+        k -= 2;
     }
     
+    k = 2 * n2 - 1;
+    for(int i = 0; i < n2; ++i){
+        nums[k] = maxArr[i];
+        k -= 2;
+    }
 }
