@@ -43,7 +43,7 @@ void quicksort(int *data, int left, int right)
 
 void wiggleSort(int* nums, int numsSize) {
     int idx, tmp, k;
-    int n1 = numsSize/2 + (numsSize&1);
+    int n1 = (numsSize + 1) / 2;
     int n2 = numsSize/2;
     
     int* minArr = (int*)malloc(sizeof(int) * n1);
