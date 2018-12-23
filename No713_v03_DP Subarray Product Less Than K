@@ -1,0 +1,92 @@
+int numSubarrayProductLessThanK(int* nums, int numsSize, int k) {
+    int count = 0, crt = nums[0], offset = 0;
+    if(crt < k){
+        ++count;
+    }
+    
+    for(int i = 1; i < numsSize; ++i){
+        crt *= nums[i];
+        while(crt >=k && offset < i){
+            crt /= nums[offset++];
+        }
+        if(crt < k){
+            count += (i - offset + 1);
+        }
+    }
+    
+    return count;
+}
+/*
+//Time Limit Exceeded
+int numSubarrayProductLessThanK(int* nums, int numsSize, int k) {
+    int count = 0, N = numsSize - 1, tmp;
+    int passNum;
+    int* buffer = (int*)malloc(sizeof(int) * numsSize);
+    
+    for(int i = 0; i < numsSize; ++i){
+        if(nums[i] >= k){
+            buffer[i] = k;
+        }else{
+            buffer[i] = nums[i];
+            ++count;
+        }
+    }
+    
+    for(int i = 1; i < numsSize; ++i, --N){
+        passNum = 0;
+        for(int j = 0; j < N; ++j){
+            if(buffer[j] >= k || nums[j + i] >= k){
+                buffer[j] = k;
+            }else{
+                tmp = buffer[j] * nums[j + i];
+                if(tmp >=k || tmp < 0){
+                    buffer[j] = k;
+                }else{
+                    buffer[j] = tmp;
+                    count++;
+                    ++passNum;
+                }
+            }
+        }
+        if(!passNum){
+            return count;
+        }
+    }
+    return count;
+}
+
+//Memory Limit Exceeded
+/*
+int numSubarrayProductLessThanK(int* nums, int numsSize, int k) {
+    int count = 0, N = numsSize - 1, tmp;
+    int** buffer = (int**)malloc(sizeof(int*) * numsSize);
+    for(int i = 0; i < numsSize; ++i){
+        buffer[i] = (int*)malloc(sizeof(int) * numsSize);
+    }
+    
+    for(int i = 0; i < numsSize; ++i){
+        if(nums[i] >= k){
+            buffer[0][i] = k;
+        }else{
+            buffer[0][i] = nums[i];
+            ++count;
+        }
+    }
+    
+    for(int i = 1; i < numsSize; ++i, --N){
+        for(int j = 0; j < N; ++j){
+            if(buffer[i - 1][j] >= k || buffer[0][j + i] >= k){
+                buffer[i][j] = k;
+            }else{
+                tmp = buffer[i - 1][j] * buffer[0][j + i];
+                if(tmp >=k || tmp < 0){
+                    buffer[i][j] = k;
+                }else{
+                    buffer[i][j] = tmp;
+                    count++;
+                }
+            }
+        }
+    }
+    return count;
+}
