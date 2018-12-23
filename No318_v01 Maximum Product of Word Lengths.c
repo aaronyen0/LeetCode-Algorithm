@@ -11,7 +11,7 @@ int maxProduct(char** words, int wordsSize) {
         one <<= 1;
     }
     
-    //將每個字串的每個字元做紀錄到table上，並一邊紀錄該字串長度
+    //將字串i的每個字元做紀錄到table[i]上，並一邊紀錄該字串長度counter[i]
     for(int i = 0; i < wordsSize; ++i){
         str = words[i];
         while(*str){
