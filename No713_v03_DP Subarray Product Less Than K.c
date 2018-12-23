@@ -1,3 +1,11 @@
+//連續寫了三個版本，這個版本是看別人寫的
+//個人想題目容有一個盲點，很少會從從尾巴開始構思
+
+//這題解法重點在i和offset的關係
+//offset和i代表著當前集合的最左邊和最右邊index
+//若著個集合的乘積<k
+//代表從i開始往「左邊」共有(i-offset+1)個「新集合」可以滿足答案(注意每個集合都包含第i個數字)
+
 int numSubarrayProductLessThanK(int* nums, int numsSize, int k) {
     int count = 0, crt = nums[0], offset = 0;
     if(crt < k){
@@ -16,6 +24,33 @@ int numSubarrayProductLessThanK(int* nums, int numsSize, int k) {
     
     return count;
 }
+
+//我的構想
+//每次都從offset出發計算到i
+//若offset==i，基本上代表第i個數字就已經超過k，因此跳到下一格
+//速度比上面略慢一些，判斷式比較多且又算兩次crt * nums[i]
+int numSubarrayProductLessThanK(int* nums, int numsSize, int k) {
+    int count = 0, crt = 1, offset = 0, i = 0;
+    while(offset < numsSize){
+        while(i < numsSize && crt * nums[i] < k){
+            crt *= nums[i++];
+        }
+        
+        if(crt < k){
+            count += i - offset;
+        }
+        
+        if(offset == i){
+            ++i;
+            crt = 1;
+            offset = i;
+        }else{
+            crt /= nums[offset++];    
+        }
+    }
+    return count;
+}
+
 /*
 //Time Limit Exceeded
 int numSubarrayProductLessThanK(int* nums, int numsSize, int k) {
