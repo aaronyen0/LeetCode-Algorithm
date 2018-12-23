@@ -6,7 +6,7 @@
 //解法重點在i和offset的關係，和我自己設想的方式有點像，每次i只進一格，讓offset往後追
 //很多需要判斷式的地方就輕易被解決了!!
 //offset和i代表著當前集合的最左邊和最右邊index
-//若著個集合的乘積<k
+//若這個集合的乘積<k
 //代表從i開始往「左邊」共有(i-offset+1)個「新集合」可以滿足答案(注意每個集合都包含第i個數字)
 int numSubarrayProductLessThanK(int* nums, int numsSize, int k) {
     int count = 0, crt = nums[0], offset = 0;
