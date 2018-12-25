@@ -16,7 +16,7 @@ void quicksort(int *data, int left, int right)
 
     while (1){
         while (i <= right){
-            if (data[i] > pivot){
+            if (data[i] >= pivot){
                 break;
             }
             ++i;
