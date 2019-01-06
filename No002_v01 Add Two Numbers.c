@@ -5,6 +5,8 @@
  *2.list1還有數字但list2走完
  *3.list2還有數字但list1走完
  *4.小心若最後flag表示要進位，記得還有一個數字1要插入
+ *
+ *題目其實有聲明l1和l2是非空集合，所以if(crt)其實可以拿掉，這樣寫只是希望它看起來更通用
  */
 
 
@@ -26,7 +28,7 @@ struct ListNode* NewNode(int val){
 
 struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
     int sum, flag = 0;
-    struct ListNode* crt = NULL, *root;
+    struct ListNode *crt = NULL, *root = NULL;
     
     while(l1 && l2){
         sum = l1->val + l2->val + flag;
