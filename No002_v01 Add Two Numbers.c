@@ -1,9 +1,12 @@
-//寫法類似mergesort的merge操作，但更簡單
-//共分4階段(flag用來判斷需不需要進位)
-//1.若list1和list2都還沒走完時
-//2.list1還有數字但list2走完
-//3.list2還有數字但list1走完
-//4.若最後flag表示要進位，記得插入數字1
+/**
+ *寫法類似mergesort的merge操作，但更簡單
+ *共分4階段(flag用來判斷需不需要進位)
+ *1.若list1和list2都還沒走完時
+ *2.list1還有數字但list2走完
+ *3.list2還有數字但list1走完
+ *4.小心若最後flag表示要進位，記得還有一個數字1要插入
+ */
+
 
 /**
  * Definition for singly-linked list.
