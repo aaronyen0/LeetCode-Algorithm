@@ -1,4 +1,12 @@
 /**
+ * 不知道下次還能不能想到
+ * 個人的寫法
+ * 1.從左掃到右
+ * 2.從右掃到左
+ * 再配合buffer和crt，就可以辦到不用除法達到題目要求
+ */
+
+/**
  * Return an array of size *returnSize.
  * Note: The returned array must be malloced, assume caller calls free().
  */
