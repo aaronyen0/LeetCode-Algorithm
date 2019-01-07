@@ -18,6 +18,31 @@ bool isPalindrome(int x) {
     return true;
 }
 
+//很意外用類似概念，改成查表找size整體速度比二分法快
+bool isPalindrome(int x) {
+    if(x < 0){
+        return false;
+    }
+    int buff[10] = {-1, 9, 99, 999, 9999, 99999, 999999, 9999999, 99999999, 999999999};
+    int size, sum = 0;
+
+    for(size = 0; size < 10 && x > buff[size]; ++size);
+    
+    for(int i = 1; i < size; i += 2){
+        sum = sum * 10 + (x%10);
+        x /= 10;
+    }
+    if(size & 1){
+        x /= 10;
+    }
+    
+    if(sum == x){
+        return true;
+    }
+    return false;
+}
+
+
 //覺得有趣就寫了一個不用buff互相比較的版本
 //概念為先抓出int十進位的長度
 //然後後面一半的數字倒著加 = 前面一半的數字
