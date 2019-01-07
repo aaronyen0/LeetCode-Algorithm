@@ -1,5 +1,23 @@
 //數字逆著念是否一致
 
+//一般性的寫法，多用一個input存初始值，然後反轉計算sum之後再去比較初始值就行了
+bool isPalindrome(int x) {
+    int input = x, sum = 0;
+    
+    if(x < 0){
+        return false;
+    }
+    
+    while(x){
+        sum = sum * 10 + (x % 10);
+        x /= 10;
+    }
+    
+    return input == sum;
+}
+
+
+//v1，開一個buff去存值最後再比較
 bool isPalindrome(int x) {
     if(x < 0){
         return false;
@@ -18,13 +36,15 @@ bool isPalindrome(int x) {
     return true;
 }
 
-//很意外用類似概念，改成查表找size整體速度比二分法快
-bool isPalindrome(int x) {
+
+//v3,很意外用類似概念，改成查表找size整體速度比二分法快(後來實測發現這個方法速度非常不穩定)
+bool isPalindrome(int x) {   
+    int buff[10] = {-1, 9, 99, 999, 9999, 99999, 999999, 9999999, 99999999, 999999999};
+    int size, sum = 0;
+    
     if(x < 0){
         return false;
     }
-    int buff[10] = {-1, 9, 99, 999, 9999, 99999, 999999, 9999999, 99999999, 999999999};
-    int size, sum = 0;
 
     for(size = 0; size < 10 && x > buff[size]; ++size);
     
@@ -32,22 +52,19 @@ bool isPalindrome(int x) {
         sum = sum * 10 + (x%10);
         x /= 10;
     }
+    
     if(size & 1){
         x /= 10;
     }
     
-    if(sum == x){
-        return true;
-    }
-    return false;
+    return sum == x;
 }
 
 
-//覺得有趣就寫了一個不用buff互相比較的版本
+//v2,覺得有趣就寫了一個不用buff互相比較的版本
 //概念為先抓出int十進位的長度
 //然後後面一半的數字倒著加 = 前面一半的數字
 //抓長度的時候還特地使用了二分法，沒想到沒有比較快
-
 bool isPalindrome(int x) {
     if(x < 0){
         return false;
