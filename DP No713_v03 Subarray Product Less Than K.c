@@ -1,6 +1,10 @@
+/**
+ *Your are given an array of positive integers nums.
+ *Count and print the number of (contiguous) subarrays where the product of all the elements in the subarray is less than k.
+ */
+
 //發現自己構思題目容有一個盲點，很少會逆著想問題
 //真的要謹記在心
-
 
 //連續寫了三個版本，這個版本是參考別人寫的
 //解法重點在i和offset的關係，和我自己設想的方式有點像，每次i只進一格，讓offset往後追
