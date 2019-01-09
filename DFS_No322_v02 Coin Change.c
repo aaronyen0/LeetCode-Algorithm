@@ -46,18 +46,22 @@ void DFS2(int *coins, int i, int remain, int cnt, int *minCnt) {
 	}
 }
 
+//main function
 int coinChange(int* coins, int coinsSize, int amount) {
 	if (amount == 0) {
 		return 0;
 	}
 
 	int k, res = INT_MAX;
-
+	//從小到大排序
 	quicksort3(coins, 0, coinsSize - 1);
 
+	//找到index k滿足coins[idx] <= amount, for all idx <= k
+	//也就是先排除硬幣超過amount那些
 	for (k = 0; coins[k] <= amount, k < coinsSize; ++k);
 	--k;
 
+	//從最大的硬幣開始做DFS
 	DFS2(coins, k, amount, 0, &res);
 	if (res != INT_MAX) {
 		return res;
