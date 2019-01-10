@@ -18,6 +18,7 @@
  * 2.從某個點出發，朝上下左右的其中一方移動，並紀錄走到底的步數
  * 3.走到底之後，若 該點紀錄的步數 > 當前走到這裡的步數，則更新該點最短步數並回到2
  * 4.若 該點紀錄的步數 <= 當前走到這裡的步數，無須再多判斷，退回前一點朝另一個方向走
+ *
 
 public class Solution {
     public int shortestDistance(int[][] maze, int[] start, int[] dest) {
