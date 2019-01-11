@@ -103,6 +103,7 @@ bool isMatch(char* s, char* p) {
 	return false;
 }
 
+
 bool InRepeating(char* s, char* p, char r) {
 	int i = 0;
 
