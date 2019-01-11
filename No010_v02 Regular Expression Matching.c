@@ -22,25 +22,25 @@ bool isMatch(char* s, char* p) {
 			r = p[pIdx];
 			//判斷字元是哪個種類，先剪枝排掉重複的，再進入repeat階段逐一檢查
 			if (r == '.') {
-                do{
-                    pIdx += 2;
-                }while(p[pIdx] != 0 && p[pIdx + 1] == '*');
-                do{
-                    if (isMatch(&s[sIdx], &p[pIdx])) {
-                        return true;
-                    }
-                }while(s[sIdx++] != 0);
+				do{
+					pIdx += 2;
+				}while(p[pIdx] != 0 && p[pIdx + 1] == '*');
+				do{
+					if (isMatch(&s[sIdx], &p[pIdx])) {
+						return true;
+					}
+				}while(s[sIdx++] != 0);
 			}else {
-                do{
-                    pIdx += 2;
-                }while(p[pIdx] == r && p[pIdx + 1] == '*');
-                do{
-                    if (isMatch(&s[sIdx], &p[pIdx])) {
-                        return true;
-                    }
-                }while(s[sIdx++] == r);
+				do{
+					pIdx += 2;
+				}while(p[pIdx] == r && p[pIdx + 1] == '*');
+				do{
+					if (isMatch(&s[sIdx], &p[pIdx])) {
+						return true;
+					}
+				}while(s[sIdx++] == r);
 			}
-            return false;
+			return false;
 		} else if (s[sIdx] != p[pIdx] && p[pIdx] != '.') { //若該s和p無法配對則離開
 			break;
 		}
@@ -49,13 +49,13 @@ bool isMatch(char* s, char* p) {
 	}
 
 	//若有剩，把多餘的x*丟棄
-    while (p[pIdx] != 0 && p[pIdx + 1] == '*') {
-        pIdx += 2;
-    }
-	
+	while (p[pIdx] != 0 && p[pIdx + 1] == '*') {
+		pIdx += 2;
+	}
+
 	//最後發現兩邊都走到底則代表找到解
 	return !s[sIdx] && !p[pIdx];
-}
+	}
 
 
 /**
@@ -74,15 +74,15 @@ bool isMatch(char* s, char* p) {
 	while (s[sIdx] && p[pIdx]) {
 		if (p[pIdx + 1] == '*' ) { //若該字元是可變長度的
 			r = p[pIdx];
-            //判斷字元是哪個種類，先剪枝排掉重複的，再進入repeat階段逐一檢查
+			//判斷字元是哪個種類，先剪枝排掉重複的，再進入repeat階段逐一檢查
 			if (r == '.') {
-                do{
-                    pIdx += 2;
-                }while(p[pIdx] != 0 && p[pIdx + 1] == '*');
+				do{
+					pIdx += 2;
+				}while(p[pIdx] != 0 && p[pIdx + 1] == '*');
 			}else {
-                do{
-                    pIdx += 2;
-                }while(p[pIdx] == r && p[pIdx + 1] == '*');
+				do{
+					pIdx += 2;
+				}while(p[pIdx] == r && p[pIdx + 1] == '*');
 			}
 			return InRepeating(&s[sIdx], &p[pIdx], r);
 		} else if (s[sIdx] != p[pIdx] && p[pIdx] != '.') { //若該s和p無法配對則離開
@@ -92,12 +92,12 @@ bool isMatch(char* s, char* p) {
 		++pIdx;
 	}
 
-    //若有剩，把多餘的x*丟棄
-    while (p[pIdx] != 0 && p[pIdx + 1] == '*') {
-        pIdx += 2;
-    }
-	
-    //最後發現兩邊都走到底則代表找到解
+	//若有剩，把多餘的x*丟棄
+	while (p[pIdx] != 0 && p[pIdx + 1] == '*') {
+		pIdx += 2;
+	}
+
+	//最後發現兩邊都走到底則代表找到解
 	if (s[sIdx] == 0 && p[pIdx] == 0) {
 		return true;
 	}
@@ -106,20 +106,20 @@ bool isMatch(char* s, char* p) {
 
 bool InRepeating(char* s, char* p, char r) {
 	int i = 0;
-    
-    //讓r依序跟s的某些字元配對
+
+	//讓r依序跟s的某些字元配對
 	if (r == '.') {
-        do{
-            if (isMatch(&s[i], p)) {
+		do{
+			if (isMatch(&s[i], p)) {
 				return true;
 			}
-        }while(s[i++] != 0);
+		}while(s[i++] != 0);
 	}else {
-        do{
-            if (isMatch(&s[i], p)) {
+		do{
+			if (isMatch(&s[i], p)) {
 				return true;
 			}
-        }while(s[i++] == r);
+		}while(s[i++] == r);
 	}
 	return false;
 }
