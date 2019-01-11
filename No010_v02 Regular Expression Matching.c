@@ -7,6 +7,7 @@
  * 例如："a*bc" = "bc" or "abc" or "aabc" or "aaabc" or ...
  */
 
+
 /**
  * version 2
  * 發現InRepeating似乎有點多餘
