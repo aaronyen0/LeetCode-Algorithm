@@ -15,7 +15,7 @@
  * 於是就整合在一起
  */
 bool isMatch(char* s, char* p) {
-	int sIdx = 0, pIdx = 0, k;
+	int sIdx = 0, pIdx = 0;
 	char r;
 	while (s[sIdx] && p[pIdx]) {
 		if (p[pIdx + 1] == '*' ) { //若該字元是可變長度的
