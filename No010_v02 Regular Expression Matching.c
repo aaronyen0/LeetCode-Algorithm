@@ -20,7 +20,7 @@ bool isMatch(char* s, char* p) {
 	while (s[sIdx] && p[pIdx]) {
 		if (p[pIdx + 1] == '*' ) { //若該字元是可變長度的
 			r = p[pIdx];
-            //判斷字元是哪個種類，先剪枝排掉重複的，再進入repeat階段逐一檢查
+			//判斷字元是哪個種類，先剪枝排掉重複的，再進入repeat階段逐一檢查
 			if (r == '.') {
                 do{
                     pIdx += 2;
@@ -48,12 +48,12 @@ bool isMatch(char* s, char* p) {
 		++pIdx;
 	}
 
-    //若有剩，把多餘的x*丟棄
+	//若有剩，把多餘的x*丟棄
     while (p[pIdx] != 0 && p[pIdx + 1] == '*') {
         pIdx += 2;
     }
 	
-    //最後發現兩邊都走到底則代表找到解
+	//最後發現兩邊都走到底則代表找到解
 	return !s[sIdx] && !p[pIdx];
 }
 
