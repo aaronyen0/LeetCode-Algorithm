@@ -1,3 +1,37 @@
+/**
+ * version2
+ * 這個解法有點像是爬樓梯問題，可以從任意樓梯爬到這個位置
+ * 找出從誰爬到這邊才是最有利的
+ * dp[i]代表爬到第i階最大的可能性是
+ */
+
+int lengthOfLIS(int* nums, int numsSize) {
+    if(numsSize == 0){
+        return 0;
+    }
+    int *dp = (int*)malloc(sizeof(int) * numsSize); //counter
+    for(int i = 0; i < numsSize; ++i){
+        dp[i] = 1;
+    }
+
+    int maxSize = 1;
+    
+    for(int i = 1; i < numsSize; ++i){
+        for(int j = i; j >= 0; --j){
+            if(nums[i] > nums[j] && dp[i] <= dp[j]){
+                dp[i] = dp[j] + 1;
+                if(dp[i] > maxSize){
+                    maxSize = dp[i];
+                }
+            }
+        }
+    }
+    return maxSize;
+}
+
+
+//這些解法都是組合遞迴，跟用dp的解法比起來雖然都是O(n^2)，但遞迴成本太大，所以都會time limit exceeded
+
 void Choose(int* nums, int numsSize, int idx, int preNum, int sNum, int flag, int* maxLen);
 void Choose2(int idx, int preNum, int sNum, int flag);
 
