@@ -1,10 +1,10 @@
 /*
  * version2：O(n^3)
  * 依舊time limit exceeded
- * 做一點優化，降為O(n^3)
+ * 不過有做一點優化，降為O(n^3)
  * 一列不管有幾個數字，int只有32個bit，
  * or運算只會將0填為1，造成數字越來越大，因此從同一個元素開始的任意子集合，最多只會有31 + 2(全0及全1)種不同數字
- * 因此可以開一個(31*ASize + 2)的buffer，用來存每一個新的數字
+ * 因此可以開一個(31*ASize + 2)的buffer，用來存每一個可能出現的新數字
  */
 
 int subarrayBitwiseORs(int* A, int ASize) {
@@ -28,10 +28,10 @@ int subarrayBitwiseORs(int* A, int ASize) {
                     stack[cnt++] = or;
                 }
             }
-            preNum = or;
+			preNum = or;
 			//已經被1填滿的數字，沒有再往下曾加集合的必要
 			if(or == 0xffffffff){
-                break;
+				break;
             }
         }    
     }
