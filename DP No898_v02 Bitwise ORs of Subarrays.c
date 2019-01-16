@@ -8,34 +8,34 @@
  */
 
 int subarrayBitwiseORs(int* A, int ASize) {
-    int or, preNum,cnt = 0, flag;
-    int *stack = (int*)malloc(sizeof(int) *(31 * ASize + 2));
-    
-    for(int i = 0; i < ASize; ++i){
-        or = 0;
-        for(int j = i; j < ASize; ++j){
-            or |= A[j];
+	int or, preNum,cnt = 0, flag;
+	int *stack = (int*)malloc(sizeof(int) *(31 * ASize + 2));
+
+	for(int i = 0; i < ASize; ++i){
+		or = 0;
+		for(int j = i; j < ASize; ++j){
+			or |= A[j];
 			//第一筆，或是該筆跟前筆不同才需要檢查是否為新數字
-            if(j == i || preNum != or){
-                flag = 0;
-                for(int k = 0; k < cnt; ++k){
-                    if(stack[k] == or){
-                        flag = 1;
-                        break;
-                    }
-                }
-                if(!flag){
-                    stack[cnt++] = or;
-                }
-            }
+			if(j == i || preNum != or){
+				flag = 0;
+				for(int k = 0; k < cnt; ++k){
+					if(stack[k] == or){
+						flag = 1;
+						break;
+					}
+				}
+				if(!flag){
+					stack[cnt++] = or;
+				}
+			}
 			preNum = or;
 			//已經被1填滿的數字，沒有再往下曾加集合的必要
 			if(or == 0xffffffff){
 				break;
-            }
-        }    
-    }
-    return cnt;
+			}
+		}    
+	}
+	return cnt;
 }
 
 
