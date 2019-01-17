@@ -6,6 +6,37 @@
  * 回傳首先選擇的人是否會獲勝？
  */
  
+//version2，寫法沒變速度也沒變，只有dp換成一維陣列
+int Min2(int a, int b){
+    if(a < b){
+        return a;
+    }
+    return b;
+}
+
+bool stoneGame(int* piles, int pilesSize) {
+    int baseSum = piles[0], tmpSum;
+    int dp[500];
+    
+    for(int i = 0; i < pilesSize; ++i){
+        dp[i] = piles[i];        
+    }
+    
+    for(int n = 1; n < pilesSize; ++n){
+        baseSum += piles[n];
+        tmpSum = baseSum;
+        for(int i = 0; i < pilesSize - n; ++i){
+            dp[i] = tmpSum - Min2(dp[i], dp[i + 1]);
+            tmpSum = tmpSum - piles[i] + piles[i + n + 1];
+        }
+    }
+    
+    if(2 * dp[0] > baseSum){
+        return true;
+    }
+    return false;
+}
+
 /*
  * version1, beat 54%
  * 這題是標準的賽局問題
