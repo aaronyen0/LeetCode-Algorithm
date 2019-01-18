@@ -21,8 +21,8 @@ int subarrayBitwiseORs(int* A, int ASize) {
 
         crtTmp[cCnt++] = A[i];
 	
-		//============================
-		//掃stack
+	//============================
+	//掃stack
         flag = 0;
         for(int k = 0; k < sCnt; ++k){
             if(A[i] == stack[k]){
@@ -33,11 +33,12 @@ int subarrayBitwiseORs(int* A, int ASize) {
         if(!flag){
             stack[sCnt++] = A[i];
         }
-		//============================
+	//============================
         for(int j = 0; j < pCnt; ++j){
             or = preTmp[j] | A[i];
-			//===========================
-			//掃crtTmp
+	
+            //===========================
+	    //掃crtTmp
             flag = 0;
             for(int k = 0; k < cCnt; ++k){
                 if(or == crtTmp[k]){
@@ -60,7 +61,7 @@ int subarrayBitwiseORs(int* A, int ASize) {
                     stack[sCnt++] = or;
                 }
             }    
-			//============================
+	    //============================
         }
         tmp = preTmp;
         preTmp = crtTmp;
