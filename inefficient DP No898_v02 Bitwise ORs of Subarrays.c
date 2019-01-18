@@ -6,6 +6,70 @@
  * 用C刻set有點麻煩，所以本題沒有繼續實做，有空再刻
  */
 
+//version3，一樣會超時，但是只要將兩個掃stack的部分換成hashtable就可以降為O(n)了
+int subarrayBitwiseORs(int* A, int ASize) {
+    int* stack = (int*)malloc((33 * ASize) * sizeof(int));
+    int buff1[33], buff2[33];
+    int* preTmp = buff1, *crtTmp = buff2, *tmp;
+    int sCnt = 0, pCnt = 0, cCnt, or, flag;
+    
+    preTmp[pCnt++] = A[0];
+    stack[sCnt++] = A[0];
+    
+    for(int i = 1; i < ASize; ++i){
+        cCnt = 0;
+
+        crtTmp[cCnt++] = A[i];
+	
+		//============================
+		//掃stack
+        flag = 0;
+        for(int k = 0; k < sCnt; ++k){
+            if(A[i] == stack[k]){
+                flag = 1;
+                break;
+            }
+        }
+        if(!flag){
+            stack[sCnt++] = A[i];
+        }
+		//============================
+        for(int j = 0; j < pCnt; ++j){
+            or = preTmp[j] | A[i];
+			//===========================
+			//掃crtTmp
+            flag = 0;
+            for(int k = 0; k < cCnt; ++k){
+                if(or == crtTmp[k]){
+                    flag = 1;
+                    break;
+                }
+            }
+            if(!flag){
+                crtTmp[cCnt++] = or;
+                
+                //掃stack
+                flag = 0;
+                for(int k = 0; k < sCnt; ++k){
+                    if(or == stack[k]){
+                        flag = 1;
+                        break;
+                    }
+                }
+                if(!flag){
+                    stack[sCnt++] = or;
+                }
+            }    
+			//============================
+        }
+        tmp = preTmp;
+        preTmp = crtTmp;
+        crtTmp = tmp;
+        pCnt = cCnt;
+    }
+    return sCnt;
+}
+
 /*
  * version2：O(n^3)
  * 依舊time limit exceeded
