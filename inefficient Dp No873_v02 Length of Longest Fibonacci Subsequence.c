@@ -1,5 +1,5 @@
 /**
- * version2, beat35%
+ * version2, 112ms beats 35%
  * 還是想不到DP版本
  * 不過費氏數列只要前兩筆資料確定
  * 後面全部都是定值
@@ -44,7 +44,7 @@ int lenLongestFibSubseq(int* A, int ASize) {
 int BinarySearch(int* array, int left, int right, int num){
     int middle;
 	while (left <= right){
-		middle = (right + left) / 2;
+		middle = (right + left) >> 1;
 
 		if (array[middle] == num){
 			return middle;
