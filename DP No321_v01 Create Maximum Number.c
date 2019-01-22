@@ -9,7 +9,7 @@
 
 /**
  * version1, 4ms beats 100%
- * 很有難度，方法不是我想的，構思來自於參考下面連結
+ * 很有難度，方法不是我想的，構思來自於下面連結
  * https://www.youtube.com/watch?v=YYduNJfzWaA&t=0s&list=PLLuMmzMTgVK7vEbeHBDD42pqqG36jhuOr&index=50
  * 這題主要在解決兩個問題：
  *
@@ -19,7 +19,7 @@
  * 本例 push(8), pop(8) [popCnt = 1] , push(9,4), pop(4) [popCnt = 0] , push(7,4,5)
  * 因此 res = {9,7,4,5}
  *
- * 2.給定兩個陣列，將之合併成最大數字
+ * 2.給定兩個陣列，將之合併成最大數字(對同一陣列而言順序不能亂)
  * 寫法類似mergesort的merge
  * 但是數字相等時特別麻煩，要往後檢查看看先走哪一邊效益比較高
  * 具體來說就是，先遇到數字更大的先走，若剩餘可檢查數字都相同則長度更長的先走
@@ -49,8 +49,10 @@ int* maxNumber(int* nums1, int nums1Size, int* nums2, int nums2Size, int k, int*
     int minLen = Max2(k - nums2Size, 0);
     int maxLen = Min2(k, nums1Size);
     
+    //測試每一個 k = len1 + len2 且 0 <= len1 <= nums1Size 且 0 <= len2 <= nums2Size，
+    //所以 max(k - nums2Size, 0) <= len1 <= min(nums1Size, k)
     for(len1 = minLen, len2 = k - len1; len1 <= maxLen; ++len1, --len2){
-        //建立
+        //從nums1中抓出長度為len1的最大數字
         popCnt = nums1Size - len1;
         top1 = -1;
         for(int i = 0; i < nums1Size; ++i){
@@ -61,7 +63,8 @@ int* maxNumber(int* nums1, int nums1Size, int* nums2, int nums2Size, int k, int*
             stack1[++top1] = nums1[i];
         }
         //PrintStack(stack1, len1, 1);
-        //2
+     
+        //從nums2中抓出長度為len2的最大數字
         popCnt = nums2Size - len2;
         top2 = -1;
         for(int i = 0; i < nums2Size; ++i){
@@ -72,7 +75,8 @@ int* maxNumber(int* nums1, int nums1Size, int* nums2, int nums2Size, int k, int*
             stack2[++top2] = nums2[i];
         }
         //PrintStack(stack2, len2, 2);
-        //merge
+     
+        //將stack1及stack2合併成一個最大數字
         idx1 = 0;
         idx2 = 0;
         offset = 0;
@@ -92,7 +96,7 @@ int* maxNumber(int* nums1, int nums1Size, int* nums2, int nums2Size, int k, int*
             buff[offset++] = stack2[idx2++];
         }
         
-        //swap maxnum;
+        //檢查新的數字有沒有比既有的來的大，有的話交換buffer
         for(int i = 0; i < k; ++i){
             if(buff[i] > res[i]){
                 tmp = buff;
@@ -109,6 +113,9 @@ int* maxNumber(int* nums1, int nums1Size, int* nums2, int nums2Size, int k, int*
         //PrintMerge(res, k);
         
     }
+    free(buff);
+    free(stack1);
+    free(stack2);
     
     *returnSize = k;
     return res;
@@ -129,22 +136,6 @@ int Max2(int a, int b){
     return b;
 }
 
-void PrintStack(int* stack, int size, int num){
-    printf("stack[%d] ", num);
-    for(int i = 0; i < size; ++i){
-        printf("%d, ", stack[i]);
-    }
-    printf("\n");
-}
-
-void PrintMerge(int* merge, int size){
-    printf("MergeArray ");
-    for(int i = 0; i < size; ++i){
-        printf("%d, ", merge[i]);
-    }
-    printf("\n");
-}
-
 int lexicographical(int* arr1, int len1, int* arr2, int len2){
     int i = 0;
     while(i < len1 && i < len2){
@@ -159,4 +150,21 @@ int lexicographical(int* arr1, int len1, int* arr2, int len2){
         return 0;
     }
     return 1;
+}
+
+
+void PrintStack(int* stack, int size, int num){
+    printf("stack[%d] ", num);
+    for(int i = 0; i < size; ++i){
+        printf("%d, ", stack[i]);
+    }
+    printf("\n");
+}
+
+void PrintMerge(int* merge, int size){
+    printf("MergeArray ");
+    for(int i = 0; i < size; ++i){
+        printf("%d, ", merge[i]);
+    }
+    printf("\n");
 }
