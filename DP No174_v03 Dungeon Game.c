@@ -6,6 +6,48 @@
  */
 
 /**
+ * version3 0ms, beats 100%
+ * 突然注意到version2不像version1還要同時保留前一格的位置
+ * 所以不用額外開陣列來存資料了
+ */
+
+int calculateMinimumHP(int** dungeon, int dungeonRowSize, int *dungeonColSizes) {
+    int colSize = dungeonColSizes[0], m, n;
+
+    m = dungeonRowSize - 1;
+    n = colSize - 1;
+    if(dungeon[m][n] < 0){
+        dungeon[m][n] = 1 - dungeon[m][n];
+    }else{
+        dungeon[m][n] = 1;
+    }
+    
+    for(int i = dungeonRowSize - 2; i >= 0; --i){
+        dungeon[i][n] = dungeon[i + 1][n] - dungeon[i][n];
+        if(dungeon[i][n] <= 0){
+            dungeon[i][n] = 1;
+        }
+    }
+    for(int i = colSize - 2; i >= 0; --i){
+        dungeon[m][i] = dungeon[m][i + 1] - dungeon[m][i];
+        if(dungeon[m][i] <= 0){
+            dungeon[m][i] = 1;
+        }
+    }
+    
+    for(int i = dungeonRowSize - 2; i >= 0; --i){
+        for(int j = colSize - 2; j >= 0; --j){
+            dungeon[i][j] = Min2(dungeon[i + 1][j] - dungeon[i][j], dungeon[i][j + 1] - dungeon[i][j]);
+            if(dungeon[i][j] <= 0){
+                dungeon[i][j] = 1;
+            }
+        }
+    }
+
+    return dungeon[0][0];
+}
+
+/**
  * version2 0ms, beats 100%
  * 稍微優化一下，並更換dp的定義
  * 定義dp[i][j]為進入這一格之前至少要有多少血量才能不死
