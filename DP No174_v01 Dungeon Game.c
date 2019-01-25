@@ -16,9 +16,10 @@
  * 心得：
  * 雖然這題為hard
  * 但這種二維陣列的路徑問題
- * 對我來說往往比一維陣列的容易想到解法
+ * 往往比一維陣列的容易想到解法
  * 感覺是國高中在排列組合時就常遇到路徑問題
- * 因此有潛移默化的效果
+ * 反而訓練有素
+ * 以後應該優先找單一陣列的DP問題
  */
 
 int Min2(int a, int b){
@@ -39,7 +40,7 @@ int calculateMinimumHP(int** dungeon, int dungeonRowSize, int *dungeonColSizes) 
     n = colSize - 1;
     dp[m][n] = 0;
     
-	//dp[i][n]為下一格至少要有的血量dp[i + 1][n]，扣除該格增減的血量dungeon[i + 1][n]，而且要非負
+    //dp[i][n]為下一格至少要有的血量dp[i + 1][n]，扣除該格增減的血量dungeon[i + 1][n]，而且要非負
     for(int i = dungeonRowSize - 2; i >= 0; --i){
         dp[i][n] = dp[i + 1][n] - dungeon[i + 1][n];
         if(dp[i][n] < 0){
