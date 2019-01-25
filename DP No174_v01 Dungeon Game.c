@@ -5,6 +5,53 @@
  * 至少初始血量要多少
  */
 
+/**
+ * version2 0ms, beats 100%
+ * 稍微優化一下，並更換dp的定義
+ * 定義dp[i][j]為進入這一格之前至少要有多少血量才能不死
+ * 因此 dp[終點] = max(終點扣的血量 + 1, 1)
+ * 其餘和version1很像，注意index位置就好
+ */
+
+int calculateMinimumHP(int** dungeon, int dungeonRowSize, int *dungeonColSizes) {
+    int colSize = dungeonColSizes[0], m, n;
+    int **dp = (int**)malloc(sizeof(int*) * dungeonRowSize);
+    for(int i = 0; i < dungeonRowSize; ++i){
+        dp[i] = (int*)malloc(sizeof(int) * colSize);
+    }
+    
+    m = dungeonRowSize - 1;
+    n = colSize - 1;
+    if(dungeon[m][n] < 0){
+        dp[m][n] = 1 - dungeon[m][n];
+    }else{
+        dp[m][n] = 1;
+    }
+    
+    for(int i = dungeonRowSize - 2; i >= 0; --i){
+        dp[i][n] = dp[i + 1][n] - dungeon[i][n];
+        if(dp[i][n] <= 0){
+            dp[i][n] = 1;
+        }
+    }
+    for(int i = colSize - 2; i >= 0; --i){
+        dp[m][i] = dp[m][i + 1] - dungeon[m][i];
+        if(dp[m][i] <= 0){
+            dp[m][i] = 1;
+        }
+    }
+    
+    for(int i = dungeonRowSize - 2; i >= 0; --i){
+        for(int j = colSize - 2; j >= 0; --j){
+            dp[i][j] = Min2(dp[i + 1][j] - dungeon[i][j], dp[i][j + 1] - dungeon[i][j]);
+            if(dp[i][j] <= 0){
+                dp[i][j] = 1;
+            }
+        }
+    }
+
+    return dp[0][0];
+}
 
 /**
  * version1 0ms, beats 100%
