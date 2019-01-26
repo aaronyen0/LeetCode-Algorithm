@@ -54,7 +54,7 @@ int lenLongestFibSubseq(int* A, int ASize) {
  * 因此問題可以化成：抓出前兩筆後(A[i], A[j])，照數列規則一直往後搜索資料
  * 又題目表示數列嚴格遞增，因此可採用Binary Search搜索剩餘資料
  * 當然如果有hashtable的話可以進一步將搜索效率降為O(1)
- * O(n^3  logn)
+ * O(n^3)
  */
 
 int BinarySearch(int* array, int left, int right, int num);
