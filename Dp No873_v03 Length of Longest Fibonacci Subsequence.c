@@ -1,4 +1,52 @@
 /**
+ * version3, 108ms beats 81% (把BinarySearch改為hashtable應該就能100%了，暫不實作)
+ * 這是參考別人寫法的，定義DP[j][k]如下
+ * 當費氏數列的最後一個數字為A[k]且倒數第二個數字為A[j]時
+ * 該費氏數列的總長度為多少 Fibb = { ..., A[j], A[k] }
+ * 因為費氏數量中任兩相鄰數字確定時，就能造出整個數列
+ * 所以可以得到再前一個數字 A[i] = A[k] - A[j]
+ * 且A[i][j]儲存 Fibb = { ..., A[i], A[j] }的長度
+ */
+
+int lenLongestFibSubseq(int* A, int ASize) {
+    int maxLen = 2, ai, rv;
+    
+    int** dp = (int**)malloc(sizeof(int*) * ASize);
+    for(int i = 0; i < ASize; ++i){
+        dp[i] = (int*)malloc(sizeof(int) * ASize);
+    }
+    
+    for(int k = 1; k < ASize; ++k){
+        for(int j = k - 1; j >= 0; --j ){
+            ai = A[k] - A[j];
+            if(ai >= A[j]){
+                while(j >= 0){
+                    dp[j--][k] = 2;
+                }
+            }else{
+                rv = BinarySearch(A, 0, j, ai);
+                if(rv == -1){
+                    dp[j][k] = 2;
+                }else{
+                    dp[j][k] = dp[rv][j] + 1;
+                }
+                if(dp[j][k] > maxLen){
+                    maxLen = dp[j][k];
+                }
+            }
+        }
+    }
+    
+    
+    
+    if(maxLen > 2){
+        return maxLen;
+    }
+    return 0;
+}
+
+
+/**
  * version2, 112ms beats 35%
  * 還是想不到DP版本
  * 不過費氏數列只要前兩筆資料確定
