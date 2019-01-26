@@ -44,13 +44,13 @@ int lenLongestFibSubseq(int* A, int ASize) {
 int BinarySearch(int* array, int left, int right, int num){
     int middle;
 	while (left <= right){
-		middle = (right + left) >> 1;
+                middle = (right + left) >> 1;
 
-		if (array[middle] == num){
-			return middle;
-		}
+                if (array[middle] == num){
+                        return middle;
+	        }
 		
-        if (array[middle] > num){
+                if (array[middle] > num){
 			right = middle - 1;
 		}else{
 			left = middle + 1;
