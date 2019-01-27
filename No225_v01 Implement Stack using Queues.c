@@ -4,11 +4,15 @@
  */
  
 /**
+ * version1, 0ms, beats 100%
  * 這題寫法大致上就是創造兩個佇列交換使用
- * 我沒有額外寫一個佇裂程式
+ * 我沒有額外寫一套佇列函式
  * 但內部buffer的push、pop是以先進先出的形式
- * 另外定義佇列中 front == rear 代表為空，可用資料存放在 queue[fonrt : (rear - 1)]
+ * 定義佇列中 front == rear 代表為空，可用資料存放在 queue[fonrt : (rear - 1)]
  * (front + 1) % maxSize == rear 代表全滿，不過本題不會有該情況，所以也沒檢查
+ * 
+ * 另外用兩個queue就沒有必要像另一題stack模仿queue時，用遞迴取代另一個stack的必要
+ * 所以Peek及Pop最好還是改成迴圈形式會比較快
  */
 
 typedef struct{
@@ -62,7 +66,9 @@ int myStackPop(MyStack* obj) {
     if(mainQueue->front == obj->maxSize){
         mainQueue->front = 0;
     }
+ 
     //printf("Peek front = %d, rear = %d, val = %d\n", (obj->mainQueue->front), (obj->mainQueue->rear), val);
+    //程式重點在這，當mainQueue沒資料時，將mainQueue跟tmpQueue的指標交換
     if(mainQueue->front == mainQueue->rear){
         obj->mainQueue = tmpQueue;
         obj->tmpQueue = mainQueue;
@@ -84,7 +90,9 @@ int myStackTop(MyStack* obj) {
     if(mainQueue->front == obj->maxSize){
         mainQueue->front = 0;
     }
+ 
     //printf("Peek front = %d, rear = %d, val = %d\n", (obj->mainQueue->front), (obj->mainQueue->rear), val);
+    //程式重點在這，當mainQueue沒資料時，將mainQueue跟tmpQueue的指標交換
     if(mainQueue->front == mainQueue->rear){
         tmpQueue->data[tmpQueue->rear++] = val;
         if(tmpQueue->rear == obj->maxSize){
