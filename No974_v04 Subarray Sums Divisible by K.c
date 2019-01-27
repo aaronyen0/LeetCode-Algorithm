@@ -2,7 +2,37 @@
  * 找出所有非空連續子集剛好能被K整除的個數
  */
  
- /**
+/**
+ * version4, 16ms, beats 100%
+ * O(n + K)
+ * 看了別人的解
+ * 在這之前我已經發現連加之後，任兩兩被K整除的index間，都有子陣列也被K整除
+ * 沒有注意到，任兩兩 mod(A[i,j], K) = q = mod(A[i,m], K)之間
+ * 也會有子陣列 A[j+1, m]能被K整除
+ * 所以只要從頭連加一次，紀錄mod[0], ... , mod[K-1]的數量
+ * 就能得到所有同餘子陣列的數量
+ * 要注意邊界mod[0]數量要多1就好
+ * 這題真的很漂亮的詮釋了Order的影響力
+ */
+
+int subarraysDivByK(int* A, int ASize, int K) {
+    int sum = 0, parallel, cnt = 0;
+    int *mod = (int*)calloc(K, sizeof(int));
+    mod[0] = 1;
+    
+    for(int i = 0; i < ASize; ++i){
+        sum += A[i];
+        mod[(sum % K + K) % K]++;
+    }
+    for(int i = 0; i < K; ++i){
+        cnt += (mod[i] * (mod[i] - 1)) >> 1;
+    }
+    
+    return cnt;
+}
+
+
+/**
  * version3, 356ms, beats 0%
  * 基本上同version2
  * 把取餘數的部分替換掉，快了兩倍多
