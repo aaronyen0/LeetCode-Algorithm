@@ -3,8 +3,10 @@
  */
  
 /**
+ * version1, 0ms, beats 100%
  * 因為可以用遞迴
- * 基本上就是用遞迴當成第二個stack便能實現queue
+ * 基本上把遞迴當成第二個stack就能實現queue
+ * 定義 top == -1代表stack為空
  */
 
 typedef struct {
