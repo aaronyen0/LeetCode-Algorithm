@@ -7,6 +7,52 @@
  */
 
 /*
+ * version2, 4ms, 33%
+ * 其實跟第一版一樣，只是變成指標版本，leetcode自從加入memory用量判斷後，似乎連計時也變慢了
+ * 看大家的寫法都差不多
+ * ps. 4463 為 n = 30 的buffer長度
+ */
+
+char* countAndSay(int n) {    
+    char* buf1 = (char*)malloc(sizeof(char) * 4463);
+    char* buf2 = (char*)malloc(sizeof(char) * 4463);
+    char* swap, *pre, *crt;
+    char crtNum;
+    int cnt, len;
+    
+    pre = buf1;
+    crt = buf2;
+    
+    pre[0] = '1';
+    pre[1] = 0;
+    for(int i = 2; i <= n; ++i){
+        len = 0;
+        cnt = 0;
+        crtNum = pre[0];
+        do{
+            if(crtNum == *pre){
+                ++cnt;
+            }else{
+                *crt++ = cnt + '0';
+                *crt++ = crtNum;
+                cnt = 1;
+                crtNum = *pre;
+            }
+        }while(*++pre);
+        *crt++ = cnt + '0';
+        *crt++ = crtNum;
+        *crt = 0;
+
+        swap = buf1;
+        buf1 = buf2;
+        buf2 = swap;
+        pre = buf1;
+        crt = buf2;
+    }
+    return pre;
+}
+
+/*
  * version1, 4ms, 33%
  * 沒什麼特別的，就是照規則做
  * 除了buffer異常的大
