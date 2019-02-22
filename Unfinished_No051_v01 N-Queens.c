@@ -15,7 +15,7 @@
  * version1, 12ms, beats 17%
  * 還沒看大家都怎麼做
  * 不過個人覺得order已經降很低了
- * 不過Set, Reset的部分其實可以不用去刷新board
+ * 另外Set, Reset的部分其實可以不用去刷新board
  * 要儲存時把stack拿出來抄就好了
  */
 
