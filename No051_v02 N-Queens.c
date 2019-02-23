@@ -12,6 +12,104 @@
  */
 
 /**
+ * version2, 8ms, beats 21%
+ * 不用一直刷新board
+ * 儲存時再創就好
+ * 另外GenBoard初始化迴圈改成memset
+ */
+
+char** GenBoard(int size){
+    char** board = (char**)malloc(sizeof(char*) * size);
+    for(int i = 0; i < size; ++i){
+        board[i] = (char*)malloc(sizeof(char) * (size + 1));
+    }
+    for(int i = 0; i < size; ++i){
+        memset(board[i], '.', size);
+        board[i][size] = 0;
+    }
+    return board;
+}
+
+int CheckIJ(int i, int j, int* col, int* lSlope, int* rSlope, int rShift){
+    if(col[j] == 1){
+        return 0;
+    }
+    if(lSlope[i + j] == 1){
+        return 0;
+    }
+    if(rSlope[j - i + rShift] == 1){
+        return 0;
+    }
+    return 1;
+}
+
+void SetIJ(int i, int j, int* col, int* lSlope, int* rSlope, int rShift){
+    col[j] = 1;
+    lSlope[i + j] = 1;
+    rSlope[j - i + rShift] = 1;
+}
+
+void ResetIJ(int i, int j, int* col, int* lSlope, int* rSlope, int rShift){
+    col[j] = 0;
+    lSlope[i + j] = 0;
+    rSlope[j - i + rShift] = 0;
+}
+
+
+char*** solveNQueens(int n, int* returnSize) {
+    int buffSize = 2 * n - 1;
+    int rShift = n - 1;
+    int* col = (int*)calloc(n, sizeof(int));
+    int* lSlope = (int*)calloc(buffSize, sizeof(int));
+    int* rSlope = (int*)calloc(buffSize, sizeof(int));
+    int offset = 0;
+    char*** res = (char***)malloc(sizeof(char**) * 1000);
+    char** board;
+    
+    int* stack = (int*)malloc(n * sizeof(int));
+    for(int i = 0; i < n; ++i){
+        stack[i] = -1;
+    }
+    
+    int row = 0, j;
+    while(row >= 0){
+        j = stack[row];
+        if(j != -1){
+            ResetIJ(row, j, col, lSlope, rSlope, rShift);
+        }
+        ++j;
+        while(j < n && CheckIJ(row, j, col, lSlope, rSlope, rShift) == 0){
+            ++j;
+        }
+        if(j == n){
+            stack[row] = -1;
+            --row;
+        }else if(row == rShift){
+            board = GenBoard(n);
+            for(int i = 0; i < row; ++i){
+                board[i][stack[i]] = 'Q';
+            }
+            board[row][j] = 'Q';
+            res[offset++] = board;
+            stack[row] = -1;
+            --row;
+        }else{
+            SetIJ(row, j, col, lSlope, rSlope, rShift);
+            stack[row] = j;
+            ++row;
+        }
+    }
+    
+    free(col);
+    free(lSlope);
+    free(rSlope);
+
+    *returnSize = offset;
+    return res;
+}
+
+
+/**
  * version1, 12ms, beats 17%
  * 還沒看大家都怎麼做
  * 不過個人覺得order已經降很低了
@@ -146,14 +244,4 @@ void PrintBoard(int size, char** preBoard){
         printf("\n");
     }
 }
-
-
-
-
-
-
-
-
-
-
 
