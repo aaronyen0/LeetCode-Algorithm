@@ -16,6 +16,7 @@
  * 不用一直刷新board
  * 儲存時再創就好
  * 另外GenBoard初始化迴圈改成memset
+ * 也把CheckIJ改成T/F
  */
 
 char** GenBoard(int size){
@@ -30,17 +31,17 @@ char** GenBoard(int size){
     return board;
 }
 
-int CheckIJ(int i, int j, int* col, int* lSlope, int* rSlope, int rShift){
+bool CheckIJ(int i, int j, int* col, int* lSlope, int* rSlope, int rShift){
     if(col[j] == 1){
-        return 0;
+        return true;
     }
     if(lSlope[i + j] == 1){
-        return 0;
+        return true;
     }
     if(rSlope[j - i + rShift] == 1){
-        return 0;
+        return true;
     }
-    return 1;
+    return false;
 }
 
 void SetIJ(int i, int j, int* col, int* lSlope, int* rSlope, int rShift){
@@ -78,7 +79,7 @@ char*** solveNQueens(int n, int* returnSize) {
             ResetIJ(row, j, col, lSlope, rSlope, rShift);
         }
         ++j;
-        while(j < n && CheckIJ(row, j, col, lSlope, rSlope, rShift) == 0){
+        while(j < n && CheckIJ(row, j, col, lSlope, rSlope, rShift)){
             ++j;
         }
         if(j == n){
@@ -107,7 +108,6 @@ char*** solveNQueens(int n, int* returnSize) {
     *returnSize = offset;
     return res;
 }
-
 
 /**
  * version1, 12ms, beats 17%
