@@ -23,16 +23,17 @@
  * version3, 56ms, 61%
  * 這是看別人寫法的，在舊版的leetcode是跑16ms
  * 新版的leetcode竟然變成56，到今天才發現新版的遞迴成本非常高
- * 不過這依然是相當值得參考的一種寫法
- * 先說我的方法慢在樹的搜尋因為要在節點間跳來跳去很花時間，不過Order也是n(log n)
+ * 不過這依然是相當值得學習的一種寫法
+ * 先說我的方法慢在樹的搜尋因為要在節點間跳來跳去很花時間，當然Order也是n(log n)
  * 
- * 看到有些人的寫法如下：
+ * 這版的寫法如下：
  * 我們都知道根就是當前陣列的最大值
  * 左子樹的根也是左子陣列的最大值
  * 右子樹的根也是右子陣列的最大值
  * 因此寫一個遞迴不斷的往下找子陣列最大值就可以建立整棵樹
- * 遞迴方式有點像quicksort找pivot，不過找到pivot的規則不同，也不用交換，相對單純很多
+ * 遞迴方式有點像quicksort找pivot，不過找pivot的規則不同，也不用做交換，相對單純很多
  */
+
 struct TreeNode* constructMaximumBinaryTree(int* nums, int numsSize) {
     if(numsSize == 0){
         return NULL;
