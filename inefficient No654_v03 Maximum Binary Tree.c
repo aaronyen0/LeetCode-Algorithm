@@ -8,6 +8,7 @@
  * [L~~~ root R~~~~]
  */
 
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -16,19 +17,13 @@
  *     struct TreeNode *right;
  * };
  */
- 
-struct TreeNode* NewNode(int num){
-    struct TreeNode* node = (struct TreeNode*)malloc(sizeof(struct TreeNode));
-    node->left = NULL;
-    node->right = NULL;
-    node->val = num;
-    return node;
-}
 
 
 /**
- * version3, 待補
- * 這是看別人寫法的
+ * version3, 56ms, 61%
+ * 這是看別人寫法的，在舊版的leetcode是跑16ms
+ * 新版的leetcode竟然變成56，到今天才發現新版的遞迴成本非常高
+ * 不過這依然是相當值得參考的一種寫法
  * 先說我的方法慢在樹的搜尋因為要在節點間跳來跳去很花時間，不過Order也是n(log n)
  * 
  * 看到有些人的寫法如下：
@@ -38,7 +33,26 @@ struct TreeNode* NewNode(int num){
  * 因此寫一個遞迴不斷的往下找子陣列最大值就可以建立整棵樹
  * 遞迴方式有點像quicksort找pivot，不過找到pivot的規則不同，也不用交換，相對單純很多
  */
+struct TreeNode* constructMaximumBinaryTree(int* nums, int numsSize) {
+    if(numsSize == 0){
+        return NULL;
+    }
+    struct TreeNode* node = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    int maxIdx = 0;
+    int maxNum = nums[0];
+    
+    for(int i = 1; i < numsSize; ++i){
+        if(maxNum < nums[i]){
+            maxIdx = i;
+            maxNum = nums[i];
+        }
+    }
 
+    node->val = maxNum;
+    node->left = constructMaximumBinaryTree(nums, maxIdx);
+    node->right = constructMaximumBinaryTree(&nums[maxIdx + 1], numsSize - maxIdx - 1);
+    return node;
+}
 
 
 /**
@@ -116,6 +130,15 @@ struct TreeNode* constructMaximumBinaryTree(int* nums, int numsSize) {
             }
         }
     }
-    return root;
-    
+    return root;   
 }
+
+
+struct TreeNode* NewNode(int num){
+    struct TreeNode* node = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    node->left = NULL;
+    node->right = NULL;
+    node->val = num;
+    return node;
+}
+
