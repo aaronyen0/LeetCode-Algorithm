@@ -47,3 +47,38 @@ int mySqrt(int x){
         return SqrtBisection(y, 46340, x);
     }
 }
+
+
+/**version2, 16ms, beats48%
+ * 會有這個版本主要是想嘗試一件事情
+ * 理想上，y已經很靠近真值sqrt(x)
+ * 可是如果加到bisection中的話
+ * 豈不是又從邊界開始搜尋
+ * 所以我嘗試直接在附近找答案
+ * 總之結果看起來並沒有比較好
+ */
+int mySqrt(int x){
+    if(x == 0 || x == 1){
+        return x;
+    }
+    float y = (1.0 / FastInvSqrt(x));
+    unsigned int z = (unsigned int)y;
+    if(z * z == x){
+        return z;
+    }else if(z * z > x){
+        --z;
+        while(z * z > x){
+            --z;
+        }
+        return z;
+    }else{
+        ++z;
+        while(z * z < x){
+            ++z;
+        }
+        if(z * z == x){
+            return z;
+        }
+        return --z;
+    }
+}
