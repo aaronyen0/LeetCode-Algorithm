@@ -2,6 +2,50 @@
  * 找到平方根並取整
  */
  
+/** version3, beats 100%, memory 100%
+ * 同樣也是覺得y已經逼近真值
+ * 縱使不逐步檢查，也應該要要善用這個優勢
+ * 我將v1版本bisection中的上或下界包在y+-100內，可以accepted所有測資
+ * 不過嘗試其他更小的區間時發現都會有錯誤
+ * 便將牛頓法由疊代一次改為疊代兩次
+ * 果然有效區間變窄許多
+ */
+float FastInvSqrt(float number){
+    float y;
+    unsigned int x = *(unsigned int*)(&number);
+    x  = 0x5f3759df - (x >> 1);
+    
+    y = *(float*)(&x);
+    y = y * (1.5 - 0.5 * number * y * y); //多疊代一次
+    return y * (1.5 - 0.5 * number * y * y);
+}
+
+unsigned int SqrtBisection(unsigned int l, unsigned int r, unsigned int target){
+    unsigned int mid = (r + l) >> 1;
+    while(mid != l){
+        if(mid * mid > target){
+            r = mid;
+        }else{
+            l = mid;
+        }
+        mid = (r + l) >> 1;
+    }
+    return mid;
+}
+
+int mySqrt(int x){
+    if(x == 0 || x == 1){
+        return x;
+    }
+    unsigned int y = (1.0 / FastInvSqrt(x)); //近似解
+    if(y * y > x){
+        return SqrtBisection(y - 32, y, x); //區間可以娶得更小
+    }else if(y * y == x){
+        return y;
+    }else{
+        return SqrtBisection(y, y + 32, x);
+    }
+}
 
 /** version1, beats 100%, memory 100%
  * 採用快速反平方根取sqrt近似值
