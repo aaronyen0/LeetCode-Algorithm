@@ -2,7 +2,7 @@
  * 找到平方根並取整
  */
  
-/** version3, beats 100%, memory 100%
+/** version3, 4ms, beats 100%, memory 100%
  * 同樣也是覺得y已經逼近真值
  * 縱使不逐步檢查，也應該要要善用這個優勢
  * 我將v1版本bisection中的上或下界包在y+-100內，可以accepted所有測資
@@ -49,7 +49,7 @@ int mySqrt(int x){
     }
 }
 
-/** version1, beats 100%, memory 100%
+/** version1, 4ms, beats 100%, memory 100%
  * 採用快速反平方根取sqrt近似值
  * 再用bisection method找到整數
  * y在程式中是近似解，y^2可能大於x，也可能小於x
@@ -95,7 +95,7 @@ int mySqrt(int x){
 }
 
 
-/**version2, 16ms, beats48%
+/**version2, 16ms, beats 48%
  * 會有這個版本主要是想嘗試一件事情
  * 理想上，y已經很靠近真值sqrt(x)
  * 可是如果加到bisection中的話
