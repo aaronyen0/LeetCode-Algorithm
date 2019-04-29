@@ -9,6 +9,8 @@
  * 不過嘗試其他更小的區間時發現都會有錯誤
  * 便將牛頓法由疊代一次改為疊代兩次
  * 果然有效區間變窄許多
+ * 當然這只是好玩測試的結果
+ * 區間取法太特規，沒有version1版本一般化
  */
 float FastInvSqrt(float number){
     float y;
@@ -39,7 +41,7 @@ int mySqrt(int x){
     }
     unsigned int y = (1.0 / FastInvSqrt(x)); //近似解
     if(y * y > x){
-        return SqrtBisection(y - 32, y, x); //區間可以娶得更小
+        return SqrtBisection(y - 32, y, x); //區間可以取得更小
     }else if(y * y == x){
         return y;
     }else{
