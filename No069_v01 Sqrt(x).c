@@ -14,11 +14,11 @@
  */
  
 float FastInvSqrt(float number){
-	float y;
-	unsigned int x = *(unsigned int*)(&number);
-	x  = 0x5f3759df - (x >> 1);
-	y = *(float*)(&x);
-	return y * (1.5 - 0.5 * number * y * y);
+    float y;
+    unsigned int x = *(unsigned int*)(&number);
+    x  = 0x5f3759df - (x >> 1);
+    y = *(float*)(&x);
+    return y * (1.5 - 0.5 * number * y * y);
 }
 
 unsigned int SqrtBisection(unsigned int l, unsigned int r, unsigned int target){
