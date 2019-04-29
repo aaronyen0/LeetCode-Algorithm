@@ -1,7 +1,33 @@
 /**
  * 找到平方根並取整
  */
- 
+
+/** version4, 4ms, beats 100%, memory 100%
+ * y = (y + x / y) / 2;
+ * 觀察一下別人的牛頓法，有趣的是，在整數運算下，若牛頓法初始值 > 真解
+ * 不論疊代幾次都不會跑到真解之下
+ * 因此剛剛找區間的問題就解決了一半
+ * 當y * y > x，直接把y放到牛頓法逼近就好
+ * 但 y * y < x，目前還是沒有什麼好方法
+ */
+
+int mySqrt(int x){
+    if(x == 0 || x == 1){
+        return x;
+    }
+    unsigned int y = (1.0 / FastInvSqrt(x)); //近似解
+    if(y * y == x){
+        return y;
+    }else if(y * y < x){
+        y = 46340;  
+    }
+    y = (y + x / y) / 2;
+    while(y * y > x){
+        y = (y + x /y) / 2;
+    }
+    return y;
+}
+
 /** version3, 4ms, beats 100%, memory 100%
  * 同樣也是覺得y已經逼近真值
  * 縱使不逐步檢查，也應該要要善用這個優勢
