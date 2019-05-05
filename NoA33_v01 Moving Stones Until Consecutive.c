@@ -18,6 +18,7 @@
  * 1. y - x == 2 或 z - y == 2，這時只要把另一側的數字放到中間就夠了
  * 2. 單邊或是雙邊原本就貼在一起
  * 3. 假設數字比此都離很遠頂多就是移動2次
+ * 程式開始先排序，之後便按照上述邏輯判斷移動次數
  */
 int* numMovesStones(int a, int b, int c, int* returnSize){
     int* res = (int*)malloc(sizeof(int) * 2);
