@@ -7,9 +7,54 @@
  */
 
 /**
+ * version3, 4ms, 99.97%
+ * 改寫:
+ * 1. 不使用function去包malloc tree node
+ * 2. 只有要離開前在next塞NULL，其他時候都不理會
+ * 真的快很多，有點嚇到。
+ */
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
+    int carry = 0;
+    struct ListNode* crt, *root;
+    root = NewNode(0);
+    crt = root;
+    
+    while(l1 && l2){
+        crt->next = (struct ListNode*)malloc(sizeof(struct ListNode));
+        crt = crt->next;
+        
+        crt->val = (l1->val + l2->val + carry) % 10;
+        carry = (l1->val + l2->val + carry) / 10;
+        l1 = l1->next;
+        l2 = l2->next;
+    }
+    
+    if(l1 == NULL){
+        l1 = l2;
+    }
+    
+    while(l1){
+        crt->next = (struct ListNode*)malloc(sizeof(struct ListNode));
+        crt = crt->next;
+        
+        crt->val = (l1->val + carry) % 10;
+        carry = (l1->val + carry) / 10;
+        l1 = l1->next;
+    }
+    
+    if(carry){
+        crt->next = (struct ListNode*)malloc(sizeof(struct ListNode));
+        crt = crt->next;
+        crt->val = carry;
+    }
+    crt->next = NULL;
+    return root->next;
+}
+
+/**
  * version2, 12ms, 97%
  * 這是直接看別人的寫法
- * 判斷式的先後順序和數量對運算的影響也蠻深的
+ * 似乎判斷式的先後順序和數量對運算的影響也蠻深的? @後來實測應該是配記憶體的層級和塞NULL的時機掌握好就可
  * 這種遞迴的寫法其實是我一直很弱的部分
  * 是說除了next = NULL只需要一次之外，感覺運算也不會比非遞迴多
  * 不知道為何可以快這麼多
