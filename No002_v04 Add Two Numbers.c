@@ -5,6 +5,67 @@
  *     struct ListNode *next;
  * };
  */
+/**
+ * version4, 4ms, 99.97%
+ * 發現記憶體一次配置一格時間浮動太大:
+ * 所以嘗試一次配一個陣列，如果陣列不夠用再繼續配
+ * 雖然時間還是會跳，但是有比較平均了
+ */
+struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
+    int MALLOCSIZE = 16;
+    int carry = 0, cnt = 0;
+    struct ListNode *crt, *root, *buffer;
+    
+    buffer = (struct ListNode*)malloc(sizeof(struct ListNode) * MALLOCSIZE);
+    
+    root = &buffer[cnt];
+    buffer[cnt].val = (l1->val + l2->val + carry) % 10;
+    carry = (l1->val + l2->val + carry) / 10;
+    l1 = l1->next;
+    l2 = l2->next;
+    crt = root;
+    
+    while(l1 && l2){
+        if(++cnt == MALLOCSIZE){
+            buffer = (struct ListNode*)malloc(sizeof(struct ListNode) * MALLOCSIZE);
+            cnt = 0;
+        }
+        crt->next = &buffer[cnt];
+        crt = &buffer[cnt];
+        buffer[cnt].val = (l1->val + l2->val + carry) % 10;
+        carry = (l1->val + l2->val + carry) / 10;
+        l1 = l1->next;
+        l2 = l2->next;
+    }
+    
+    if(l1 == NULL){
+        l1 = l2;
+    }
+    
+    while(l1){
+        if(++cnt == MALLOCSIZE){
+            buffer = (struct ListNode*)malloc(sizeof(struct ListNode) * MALLOCSIZE);
+            cnt = 0;
+        }
+        crt->next = &buffer[cnt];
+        crt = &buffer[cnt];
+        buffer[cnt].val = (l1->val + carry) % 10;
+        carry = (l1->val + carry) / 10;
+        l1 = l1->next;
+    }
+    
+    if(carry){
+        if(++cnt == MALLOCSIZE){
+            buffer = (struct ListNode*)malloc(sizeof(struct ListNode) * MALLOCSIZE);
+            cnt = 0;
+        }
+        crt->next = &buffer[cnt];
+        crt = &buffer[cnt];
+        buffer[cnt].val = carry;
+    }
+    buffer[cnt].next = NULL;
+    return root;
+}
 
 //多繳交幾次發現，這個版本的時間落差很大，看來leetcode配置記憶體的機制似乎很影響時間。
 
