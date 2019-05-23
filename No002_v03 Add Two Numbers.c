@@ -6,12 +6,14 @@
  * };
  */
 
+//多繳交幾次發現，這個版本的時間落差很大，看來leetcode配置記憶體的機制似乎很影響時間。
+
 /**
  * version3, 4ms, 99.97%
  * 改寫:
  * 1. 不使用function去包malloc tree node
  * 2. 只有要離開前在next塞NULL，其他時候都不理會
- * 真的快很多，有點嚇到。
+ * 快這麼很多，有點嚇到。
  */
 struct ListNode* addTwoNumbers(struct ListNode* l1, struct ListNode* l2) {
     int carry = 0;
