@@ -12,14 +12,14 @@ int* numMovesStonesII(int* stones, int stonesSize, int* returnSize){
     QuickSort3(stones, 0, stonesSize - 1);
     minVal = stones[0];
     maxVal = stones[stonesSize - 1];
-	if(minVal + stonesSize == maxVal + 1){
-		res[0] = 0;
-		res[1] = 0;
-		return res;
-	}
+    if(minVal + stonesSize == maxVal + 1){
+        res[0] = 0;
+        res[1] = 0;
+        return res;
+    }
     
     //最大
-	lSpace1 = stones[1] - stones[0] - 1;
+    lSpace1 = stones[1] - stones[0] - 1;
     rSpace1 = stones[stonesSize - 1] - stones[stonesSize - 2] - 1;
     if(lSpace1 < rSpace1){
         res[1] = maxVal - minVal + 1 - stonesSize - lSpace1; // 左邊往內縮
@@ -38,24 +38,23 @@ int FindMinClipNum(int* arr, int len){
     int crtRightIdx = 0;
     int clipNum;
 
-	for(int i = 0; i < len - 1; ++i){
-		rNum = arr[i] + len - 1;
-		while(crtRightIdx < len && arr[crtRightIdx] <= rNum){
-			crtRightIdx++;
-		}
+    for(int i = 0; i < len - 1; ++i){
+        rNum = arr[i] + len - 1;
+        while(crtRightIdx < len && arr[crtRightIdx] <= rNum){
+            crtRightIdx++;
+        }
 
-		clipNum = len - crtRightIdx + i;
-		if(clipNum == 1 && arr[crtRightIdx - 1] != rNum){
-			clipNum = 2;
-		}
+        clipNum = len - crtRightIdx + i;
+        if(clipNum == 1 && arr[crtRightIdx - 1] != rNum){
+            clipNum = 2;
+        }
 
-		//printf("%d, %d, %d\n", i, crtRightIdx, clipNum);
-		if(clipNum < minClipNum){
-			minClipNum = clipNum;
-		}
-	}
-	
-	return minClipNum;
+        //printf("%d, %d, %d\n", i, crtRightIdx, clipNum);
+        if(clipNum < minClipNum){
+            minClipNum = clipNum;
+        }
+    }	
+    return minClipNum;
 }
 
 
