@@ -37,23 +37,23 @@ int FindMinClipNum(int* arr, int len){
     int rNum, minClipNum = INT_MAX;
     int crtRightIdx = 0;
     int clipNum;
-	
-    for(int i = 0; i < len - 1; ++i){
-        rNum = arr[i] + len - 1;
-        while(crtRightIdx < len && arr[crtRightIdx] <= rNum){
-            crtRightIdx++;
-        }
-		
-        clipNum = len - crtRightIdx + i;
+
+	for(int i = 0; i < len - 1; ++i){
+		rNum = arr[i] + len - 1;
+		while(crtRightIdx < len && arr[crtRightIdx] <= rNum){
+			crtRightIdx++;
+		}
+
+		clipNum = len - crtRightIdx + i;
 		if(clipNum == 1 && arr[crtRightIdx - 1] != rNum){
 			clipNum = 2;
 		}
-		
+
 		//printf("%d, %d, %d\n", i, crtRightIdx, clipNum);
 		if(clipNum < minClipNum){
 			minClipNum = clipNum;
 		}
-    }
+	}
 	
 	return minClipNum;
 }
