@@ -9,8 +9,8 @@
 
 /**
  * version1, 28ms, beats 86%
- * 1. 依照word的長度排序重排
- * 2. 定義dp[i]為，到字串i為止最長的predecessor集合
+ * 1. 依照word的長度重排字串
+ * 2. 定義dp[i]：為終點為字串i時最長的predecessor集合
  * 做法等同於最長遞增子陣列
  */
 
