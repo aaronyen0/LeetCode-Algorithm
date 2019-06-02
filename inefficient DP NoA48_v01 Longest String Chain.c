@@ -25,7 +25,6 @@ int longestStrChain(char ** words, int wordsSize){
     int* dp = (int*)malloc(wordsSize * sizeof(int));
     char** sortWords = (char**)malloc(wordsSize * sizeof(char*));
     int* wordLen = (int*)malloc(wordsSize * sizeof(int));
-    //int* sortLen = (int*)malloc(wordsSize * sizeof(int));
     
     //counting sort
     for(int i = 0; i < wordsSize; ++i){
@@ -35,11 +34,10 @@ int longestStrChain(char ** words, int wordsSize){
     for(int i = 2; i < 17; ++i){
         offset[i] = offset[i - 1] + counting[i - 1];
     }
-    
     for(int i = 0; i < wordsSize; ++i){
         sortWords[offset[wordLen[i]]++] = words[i];
-        //sortLen[offset[wordLen[i]]++] = wordLen[i];
     }
+ 
     k = 1;
     q = 0;
     while(k < 17){
