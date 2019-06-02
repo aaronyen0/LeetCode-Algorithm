@@ -11,10 +11,53 @@
  
 
 
+/**
+ * version2, 0ms, beats 100%
+ * 原本以為想出一個dp解還不錯
+ * 後來發現還是不夠全面
+ * 造成很多冗於的運算
+ * 這版本的dp定義略為不同
+ * 對所有i < j，dp[i][j]為從[i]→[j]的集合所形成的三角網格最小乘積和
+ * 最終我們可以求得dp[0][n-1]其實就包含了所有的點
+ * 不用像是version1，找出所有的(i,j)組合計算dp[i][j]+dp[j][i]
+ * 主要差別就是這個版本(i,j)可以相鄰
+ * 另外寫成這個算法後，整個計算根本就是matrix chain products的問題
+ */
+
+int minScoreTriangulation(int* A, int ASize){
+    if(ASize == 3){
+        return A[0] * A[1] * A[2];
+    }
+    
+    int j, tmpLine, tmpMin, crtVal;
+    int** dp = (int**)malloc(sizeof(int*) * ASize);
+    for(int i = 0; i < ASize; ++i){
+        dp[i] = (int*)calloc(ASize + 1, sizeof(int));
+    }
+    
+    for(int step = 2; step < ASize; ++step){
+        for(int i = 0; i + step < ASize; ++i){
+            j = i + step;
+            //printf("%d, %d\n",i , j);
+            tmpMin = INT_MAX;
+            tmpLine = A[i] * A[j];
+            for(int k = i + 1; k < j; ++k){
+                crtVal = tmpLine * A[k] + dp[i][k] + dp[k][j];
+                if(crtVal < tmpMin){
+                    tmpMin = crtVal;
+                }
+            }
+            dp[i][j] = tmpMin;
+        }
+    }
+    
+    return dp[0][ASize - 1];
+}
 
 /**
- * version1, 8ms, 35%
+ * version1, 8ms, beats 35%
  * 明顯是一個DP問題
+ * 當i和j不相鄰時
  * 定義DP[i][j], i < j 為從「頂點i順時針到頂點j」的凸包集合可以形成的最小乘積和
  * 因此DP[2][0]的凸包頂點集合為{2,3,4,5,...,n-1,0}所形成的多邊形
  * 大家都知道假設[i]→[j]只有三個點，dp[i][j]必然為這三個點的乘積和
