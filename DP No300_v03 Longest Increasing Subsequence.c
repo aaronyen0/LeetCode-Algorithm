@@ -1,4 +1,61 @@
 /**
+ * version3, 0ms, 100%
+ * O(n*log(n))
+ * 今天發現這題其實很有難度，這是看別人寫的
+ * 給一個buffer
+ * buffer用來儲存一個遞增數列
+ * 而且隨著迴圈推進
+ * 會把新的數字丟到數列中，替換掉比較大的數字或是插入在數列最尾端(看數字大小決定)
+ * 因此在遞增數列看到的每個數字
+ * 就是以該數字為終點的最長遞增數列長度
+ *
+ * ex: [9, 8, 7, 1, 4, 3, 6, 2, 0]
+ * 9: [9]
+ * 8: [8]
+ * 7: [7]
+ * 1: [1]
+ * 4: [1, 4]
+ * 3: [1, 3]
+ * 6: [1, 3, 6]
+ * 2: [1, 2, 6]
+ * 0: [0, 2, 6]
+ */
+int search(int *dp, int r, int val) {
+    int m, l = 0;
+    while (l < r) {
+        m = (l + r) / 2;
+        if (val > dp[m]){ //只要比val來的小就會往右移，因此會停在比val還要大或是相等的地方
+            l = m + 1;
+        }else{
+            r = m;
+        }
+    }
+    return l;
+}
+
+int lengthOfLIS(int* nums, int numsSize){
+    if (numsSize < 2){
+        return numsSize;
+    }
+    
+    int dp[numsSize];
+    dp[0] = nums[0];
+    
+    int i, j, len = 1;
+    for (i = 1; i < numsSize; i++) {
+        dp[len] = nums[i];
+        j = search(dp, len, nums[i]);
+        
+        if(j < len){
+            dp[j] = dp[len];
+        }else{
+            len++;
+        }
+    }
+    return len;
+}
+
+/**
  * version2
  * 這個解法有點像是爬樓梯問題，可以從任意樓梯爬到當前這個位置
  * 找出從誰爬到這邊才是最有利的
