@@ -15,7 +15,7 @@
         - length of the version_num is 2
         
     - extension_name: 
-        - c, java, py, cs, ...
+        - c, py, java, cs, cpp, ...
     
     - example: 
         - **NoA39_v02 Minimum Score Triangulation of Polygon.c**
